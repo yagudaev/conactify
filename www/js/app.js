@@ -14,29 +14,22 @@ define(function(require) {
     require('layouts/view');
     require('layouts/list');
 
+    var visualization = require('visualization');
+    var listView = require('./views/list-view');
+
     function formatDate(d) {
         return (d.getMonth()+1) + '/' +
             d.getDate() + '/' +
             d.getFullYear();
     }
 
-    function drawContacts(ctx) {
-        ctx.fillStyle = "rgb(200,0,0)";
-        ctx.fillRect (10, 10, 55, 50);
-
-        ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-        ctx.fillRect (30, 30, 55, 50);
-    }
-
     // List view
-    var visualizerHTML = '<canvas id="contact-visualizer" width="400" height="400"></canvas>';
-
     var list = $('.list').get(0);
     list.add({ title: 'Visualize',
-               desc: 'Visualize contact ' + visualizerHTML,
+               desc: '<div id="visualization"></div>',
                date: new Date(12, 9, 5) });
     list.add({ title: 'List',
-               desc: 'Show all contacts',
+               desc: '<div id="contacts-list"></div>',
                date: new Date(12, 10, 1) });
 
     $('button.refresh', list).click(function() {
@@ -55,9 +48,15 @@ define(function(require) {
         $('.desc', this).html(item.get('desc'));
         $('.date', this).text(formatDate(item.get('date')));
 
-        var el = document.getElementById('contact-visualizer');
-        var context = el.getContext('2d');
-        drawContacts(context);
+        var el;
+
+        if (item.get('title') === "List") {
+            el = document.getElementById("contacts-list");
+            listView.render(el);
+        }
+
+        el = document.getElementById("visualization");
+        visualization.draw(el);
     };
 
     // Edit view
