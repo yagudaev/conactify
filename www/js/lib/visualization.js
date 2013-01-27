@@ -3,14 +3,14 @@ define(['d3'], function (d3) {
 var exports = {};
 
 exports.draw = function(el) {
-  var width = 960,
-    height = 500;
+  var width = 400,
+    height = 400;
 
   var color = d3.scale.category20();
 
   var force = d3.layout.force()
-      .charge(-120)
-      .linkDistance(30)
+      .charge(-60)
+      .linkDistance(20)
       .size([width, height]);
 
   var svg = d3.select(el).append("svg")
