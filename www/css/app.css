@@ -42,3 +42,13 @@ x-listview.list li:before {
     margin-right: 5px;
     vertical-align: middle;
 }
+
+.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.link {
+  stroke: #999;
+  stroke-opacity: .6;
+}

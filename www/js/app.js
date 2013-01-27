@@ -14,7 +14,7 @@ define(function(require) {
     require('layouts/view');
     require('layouts/list');
 
-    var visualization = require('visualization');
+    var visualizationView = require('./views/visualization-view');
     var listView = require('./views/list-view');
 
     function formatDate(d) {
@@ -26,11 +26,11 @@ define(function(require) {
     // List view
     var list = $('.list').get(0);
     list.add({ title: 'Visualize',
-               desc: '<div id="visualization"></div>',
-               date: new Date(12, 9, 5) });
+               desc: '<div id="visualization"></div>'
+             });
     list.add({ title: 'List',
-               desc: '<div id="contacts-list"></div>',
-               date: new Date(12, 10, 1) });
+               desc: '<div id="contacts-list"></div>'
+             });
 
     $('button.refresh', list).click(function() {
         // Do nothing right now
@@ -46,17 +46,18 @@ define(function(require) {
     detail.render = function(item) {
         $('.title', this).html(item.get('title'));
         $('.desc', this).html(item.get('desc'));
-        $('.date', this).text(formatDate(item.get('date')));
 
         var el;
 
-        if (item.get('title') === "List") {
-            el = document.getElementById("contacts-list");
-            listView.render(el);
+        switch(item.get('title')) {
+            case "List":
+                el = document.getElementById("contacts-list");
+                listView.render(el);
+                break;
+            case "Visualize":
+                el = document.getElementById("visualization");
+                visualizationView.render(el);
         }
-
-        el = document.getElementById("visualization");
-        visualization.draw(el);
     };
 
     // Edit view
